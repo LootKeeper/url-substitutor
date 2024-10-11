@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "URL substitutor",
+  "description": "Substitute base url in current tab",
+  "version": "1.0",
+  "action": {
+    "default_popup": "./dist/index.html",
+    "default_icon": "extLogo.png"
+  }
+}
