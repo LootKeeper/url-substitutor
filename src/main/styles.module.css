@@ -1,4 +1,11 @@
 .root {
-  background: red;
-  font: red;
+  width: 300px;
+  height: auto;
+
+  background: darkgray;
+}
+
+.listWrapper {
+  display: flex;
+  padding: 10px;
 }

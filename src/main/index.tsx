@@ -1,10 +1,16 @@
 import React from 'react';
 
-import styles from './styles.module.css';
+import List from '@root/components/NavList';
+import AddNewItem from '@root/components/AddNewNavItem';
+
+import {root, listWrapper} from './styles.module.css';
 
 const Main = () => 
-  <div className={styles.root}>
-    Hello world!
+  <div className={root}>
+      <div className={listWrapper}>
+        <List />
+        <AddNewItem />
+      </div>
   </div>
 
 export default Main;

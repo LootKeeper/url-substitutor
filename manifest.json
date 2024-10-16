@@ -3,6 +3,7 @@
   "name": "URL substitutor",
   "description": "Substitute base url in current tab",
   "version": "1.0",
+  "permissions": ["tabs", "scripting", "sidePanel", "storage"],
   "action": {
     "default_popup": "./dist/index.html",
     "default_icon": "extLogo.png"

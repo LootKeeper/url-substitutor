@@ -1,0 +1,16 @@
+.root {
+  display: grid;
+  grid-template-areas: "name actions" "host actions";
+}
+
+.name {
+  grid-area: name;
+}
+
+.host {
+  grid-area: host;
+}
+
+.actions {
+ grid-area: actions;
+}

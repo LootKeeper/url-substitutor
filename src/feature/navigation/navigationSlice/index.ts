@@ -1,33 +1,48 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Navigation } from '../index';
+import { AddActionType, RemoveActionType, UpdateActionType } from './actions';
 
-export const counterSlice = createSlice({
+interface INavigationState {
+  items: Navigation[];
+}
+
+const initialState: INavigationState = {
+  items: []
+}
+
+export const navigationSlice = createSlice({
   name: 'navigation',
-  initialState: {
-    navigation: [],
-  },
+  initialState,
   reducers: {
-    add: (state, action) => {
+    add: (state, action: PayloadAction<AddActionType>) => {
       if (action.payload) {
-        state.navigation.push(action.payload);
+        const id = state.items.length + 1;
+        const { name, host } = action.payload;
+        state.items.push({ id, name: name ?? host, host });
       }
     },
-    remove: (state, action) => {
+    remove: (state, action: PayloadAction<RemoveActionType>) => {
       if (action.payload) {
-        const navToRemoveIndex = state.navigation.findIndex(action.payload);
-        state.navigation.splice(navToRemoveIndex, 1);
+        const newItems = state.items.filter(item => item.id != action.payload.id);
+        state.items = newItems;
       }
     },
-    update: (state, action) => {
+    update: (state, action: PayloadAction<UpdateActionType>) => {
       if (action.payload) {
-        const navToUpdateIndex = state.navigation.findIndex(action.payload.current);
-        state.navigation[navToUpdateIndex] = action.payload.new;
+        const { id, host, name } = action.payload;
+        const navToUpdate = state.items.find(item => item.id === id);
+        if (host) {
+          navToUpdate.host = host;
+        }
+        if (name) {
+          navToUpdate.name = name;
+        }
       }
     }
   },
 });
 
 
-export const { add, remove, update } = counterSlice.actions
+export const { add, remove, update } = navigationSlice.actions
 
-export default counterSlice.reducer
+export default navigationSlice.reducer

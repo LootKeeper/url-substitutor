@@ -2,25 +2,30 @@
   "compilerOptions": {
     "outDir": "./dist",
     "noImplicitAny": true,
-    "module": "es6",
     "target": "es5",
     "jsx": "react",
     "allowJs": true,
     "checkJs": false,
     "pretty": true,
     "sourceMap": true,
-    "moduleResolution": "node",
+    "lib": ["dom", "esnext"],
+    "module": "Node16",
+    "moduleResolution": "Node16",
     "allowSyntheticDefaultImports": true,
     "plugins": [
       { 
         "name": "typescript-plugin-css-modules", 
         "options": {
           "customTemplate": "./customTemplate.js"
-        } 
+        }
       }
-    ]
+    ],
+    "baseUrl": "./",
+    "paths": {
+      "@root/*": [ "./src/*" ]
+    }
   },
   "exclude": [
     "node_modules"
-  ]
+  ],
 }
