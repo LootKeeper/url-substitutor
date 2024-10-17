@@ -1,17 +1,35 @@
 .root {
   display: grid;
+  gap: 5px;
   grid-template-areas: "name actions" "host actions";
   grid-template-columns: 1fr 50px;
+
+  padding: 2px;
+  border-radius: 6px;
+  background: lightgray;
+  align-items: center;
+}
+
+.input {
+  align-items: center;
+  display: grid;
+  padding-right: 5px;
 }
 
 .name {
   grid-area: name;
+  height: 20px;
 }
 
 .host {
   grid-area: host;
+  height: 20px;
 }
 
 .actions {
- grid-area: actions;
+  grid-area: actions;
+
+  display: grid;
+  gap: 5px;
+  width: 100%;
 }

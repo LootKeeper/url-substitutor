@@ -9,7 +9,9 @@ type ListenerApi = ListenerEffectAPI<RootState, AppDispatch>;
 
 const initEffect = async (action: InitActionType, listenerApi: ListenerApi) => {
   const message: Message = { type: MessageType.GET_ALL };
-  const navigation = await chrome.runtime.sendMessage(message);
+  const { navigation } = await chrome.runtime.sendMessage(message);
+  const lastError = chrome.runtime.lastError
+  console.log({ TEST: true, navigationToSet: navigation, lastError });
   listenerApi.dispatch(set({ navigation }));
 }
 
@@ -21,10 +23,10 @@ listener.startListening({
 const addEffect = async (action: PayloadAction<AddActionType>, listenerApi: ListenerApi) => {
   const message: Message = { type: MessageType.ADD, payload: { name: '', host: '' } };
   console.log({ TEST: true, message });
-  const navigation = await chrome.runtime.sendMessage(message);
+  const { navigation } = await chrome.runtime.sendMessage(message);
   console.log({ TEST: true, navigation });
 
-  listenerApi.dispatch(set(navigation));
+  listenerApi.dispatch(set({ navigation }));
 }
 
 listener.startListening({
@@ -34,8 +36,8 @@ listener.startListening({
 
 const updateEffect = async (action: PayloadAction<UpdateActionType>, listenerApi: ListenerApi) => {
   const message: Message = { type: MessageType.UPDATE_BY_ID, payload: action.payload };
-  const navigation = await chrome.runtime.sendMessage(message);
-  listenerApi.dispatch(set(navigation));
+  const { navigation } = await chrome.runtime.sendMessage(message);
+  listenerApi.dispatch(set({ navigation }));
 }
 
 listener.startListening({

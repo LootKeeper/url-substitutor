@@ -16,6 +16,7 @@ export const navigationSlice = createSlice({
   reducers: {
     init: (state, _: InitActionType) => state,
     set: (state, action: PayloadAction<SetActionType>) => {
+      console.log({ TEST: true, set: action });
       state.items = action.payload.navigation;
     },
     add: (state, _: PayloadAction<AddActionType>) => state,

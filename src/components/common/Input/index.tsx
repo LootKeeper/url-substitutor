@@ -1,8 +1,14 @@
-import React, { useState, useCallback, SyntheticEvent } from 'react';
+import React, {
+  useState,
+  useCallback,
+  useRef,
+  SyntheticEvent,
+  KeyboardEvent
+} from 'react';
 
 import Label from '@root/components/common/Label';
 
-import { root } from './styles.module.css';
+import { root, input } from './styles.module.css';
 
 export type Props = {
   value?: string;
@@ -12,13 +18,26 @@ export type Props = {
 
 const Input = ({ value, placeholder, onChange }: Props) => {
   const [inFocuse, setInFocuse] = useState<boolean>(false);
+  const inputRef = useRef<HTMLInputElement>(null);
+
   const onClickCallback = useCallback(() => {
     if (!inFocuse) {
       setInFocuse(true);
+      inputRef.current?.focus();
     }
   }, [inFocuse]);
 
   const onSubmitCallback = useCallback(
+    (e: KeyboardEvent<HTMLInputElement>) => {
+      if (inFocuse && e.key === 'Enter') {
+        setInFocuse(false);
+        onChange(e.currentTarget.value);
+      }
+    },
+    [inFocuse]
+  );
+
+  const onBlurCallback = useCallback(
     (e: SyntheticEvent<HTMLInputElement>) => {
       if (inFocuse) {
         setInFocuse(false);
@@ -33,10 +52,12 @@ const Input = ({ value, placeholder, onChange }: Props) => {
     <div className={root} onClick={onClickCallback}>
       {inFocuse ? (
         <input
+          className={input}
+          autoFocus
           placeholder={placeholder}
           defaultValue={value}
-          onBlur={onSubmitCallback}
-          onSubmit={onSubmitCallback}
+          onBlur={onBlurCallback}
+          onKeyDown={onSubmitCallback}
         />
       ) : (
         <Label text={value.length > 0 ? value : placeholder} />

@@ -1,4 +1,6 @@
 import React, { useCallback } from 'react';
+import cn from 'classnames';
+
 import { useDispatch } from 'react-redux';
 import { Navigation } from 'src/feature/navigation';
 import { update } from 'src/feature/navigation/navigationSlice';
@@ -32,14 +34,14 @@ const NavItem = ({ item }: Props) => {
 
   return (
     <div className={styles.root}>
-      <div className={styles.name}>
+      <div className={cn(styles.input, styles.name)}>
         <Input
           value={name}
           placeholder={'Name...'}
           onChange={onNameChangeCallback}
         />
       </div>
-      <div className={styles.host}>
+      <div className={cn(styles.input, styles.host)}>
         <Input
           value={host}
           placeholder={'Host...'}
@@ -47,8 +49,8 @@ const NavItem = ({ item }: Props) => {
         />
       </div>
       <div className={styles.actions}>
-        <Button onClick={() => console.log('apply')} label=":check:" />
-        <Button onClick={() => console.log('delete')} label=":cross:" />
+        <Button onClick={() => console.log('apply')} label="✅" />
+        <Button onClick={() => console.log('delete')} label="❗" />
       </div>
     </div>
   );
