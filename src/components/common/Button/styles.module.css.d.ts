@@ -1,5 +1,5 @@
 declare const styles: {
-  readonly "btnContainer": string;
+  readonly "btn": string;
 };
 export = styles;
 

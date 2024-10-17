@@ -1,6 +1,7 @@
 .root {
   display: grid;
   grid-template-areas: "name actions" "host actions";
+  grid-template-columns: 1fr 50px;
 }
 
 .name {

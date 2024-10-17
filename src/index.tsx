@@ -3,11 +3,18 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import store from './store';
 
+import 'normalize.css';
+import './styles.css';
+
 import Main from './main';
 
 const root = createRoot(document.getElementById('app'));
 
-root.render(<Provider store={store}><Main /></Provider>);
+root.render(
+  <Provider store={store}>
+    <Main />
+  </Provider>
+);
 
 if (module.hot) {
   module.hot.accept('./main', () => {

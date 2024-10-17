@@ -17,7 +17,7 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.module.css$/,
+        test: /\.css$/,
         use: [
           {
             loader: "style-loader",
@@ -28,6 +28,7 @@ module.exports = {
               esModule: true,
               modules: {
                 namedExport: true,
+                localIdentName: "[name]__[local]___[hash:base64:5]",
               },
             }
           },

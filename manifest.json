@@ -7,5 +7,9 @@
   "action": {
     "default_popup": "./dist/index.html",
     "default_icon": "extLogo.png"
+  },
+  "background": {
+    "service_worker": "./dist/service-worker.js",
+    "type": "module"
   }
 }

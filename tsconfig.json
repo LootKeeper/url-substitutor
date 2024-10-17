@@ -15,9 +15,6 @@
     "plugins": [
       { 
         "name": "typescript-plugin-css-modules", 
-        "options": {
-          "customTemplate": "./customTemplate.js"
-        }
       }
     ],
     "baseUrl": "./",

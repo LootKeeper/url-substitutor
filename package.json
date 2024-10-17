@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "background.js",
   "scripts": {
-    "build": " tcm src && webpack --config webpack.config.dev.js",
+    "build": " tcm src && webpack --config webpack.config.dev.js && webpack --config webpack.background.config.dev.js",
     "release": "webpack --config webpack.config.prod.js",
     "debug": "webpack serve --config webpack.config.watch.js",
     "lint": "eslint . --ext .ts",
@@ -49,6 +49,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.2.8",
+    "@types/chrome": "^0.0.278",
     "@types/react": "^18.3.11",
     "@types/react-dom": "^18.3.0",
     "acorn": "^8.12.1",
@@ -95,6 +96,7 @@
     "mini-css-extract-plugin": "^2.9.1",
     "neo-async": "^2.6.2",
     "node-releases": "^2.0.18",
+    "normalize.css": "^8.0.1",
     "picocolors": "^1.1.0",
     "picomatch": "^2.3.1",
     "punycode": "^2.3.1",
