@@ -1,4 +1,5 @@
 declare const styles: {
+  readonly "action": string;
   readonly "actions": string;
   readonly "host": string;
   readonly "input": string;

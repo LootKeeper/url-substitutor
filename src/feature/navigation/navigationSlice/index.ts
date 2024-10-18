@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Navigation } from '../index';
-import { AddActionType, RemoveActionType, UpdateActionType, InitActionType, SetActionType } from './actions';
+import { AddActionType, RemoveActionType, UpdateActionType, InitActionType, SetActionType, SaveAllActionType } from './actions';
 
 interface INavigationState {
   items: Navigation[];
@@ -20,17 +20,13 @@ export const navigationSlice = createSlice({
       state.items = action.payload.navigation;
     },
     add: (state, _: PayloadAction<AddActionType>) => state,
-    remove: (state, action: PayloadAction<RemoveActionType>) => {
-      if (action.payload) {
-        const newItems = state.items.filter(item => item.id != action.payload.id);
-        state.items = newItems;
-      }
-    },
+    remove: (state, _: PayloadAction<RemoveActionType>) => state,
     update: (state, _: PayloadAction<UpdateActionType>) => state,
+    saveAll: (state, _: PayloadAction<SaveAllActionType>) => state,
   },
 });
 
 
-export const { add, remove, update, init, set } = navigationSlice.actions
+export const { add, remove, update, init, set, saveAll } = navigationSlice.actions
 
 export default navigationSlice.reducer

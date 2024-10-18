@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
-import cn from 'classnames';
-
 import { useDispatch } from 'react-redux';
+import cn from 'classnames';
+import { isValidHost } from '@root/utils/url';
+
 import { Navigation } from 'src/feature/navigation';
-import { update } from 'src/feature/navigation/navigationSlice';
+import { remove, update } from 'src/feature/navigation/navigationSlice';
 
 import Input from '@root/components/common/Input';
 import Button from '@root/components/common/Button';
@@ -32,6 +33,10 @@ const NavItem = ({ item }: Props) => {
     [id]
   );
 
+  const onRemoveBtnClickCallback = useCallback(() => {
+    dispatch(remove({ id }));
+  }, []);
+
   return (
     <div className={styles.root}>
       <div className={cn(styles.input, styles.name)}>
@@ -49,8 +54,17 @@ const NavItem = ({ item }: Props) => {
         />
       </div>
       <div className={styles.actions}>
-        <Button onClick={() => console.log('apply')} label="✅" />
-        <Button onClick={() => console.log('delete')} label="❗" />
+        <Button
+          disabled={isValidHost(host)}
+          className={styles.action}
+          onClick={() => console.log('apply')}
+          label="✅"
+        />
+        <Button
+          className={styles.action}
+          onClick={onRemoveBtnClickCallback}
+          label="❎"
+        />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@
   display: grid;
   gap: 5px;
   grid-template-areas: "name actions" "host actions";
-  grid-template-columns: 1fr 50px;
+  grid-template-columns: 1fr min-content;
 
   padding: 2px;
   border-radius: 6px;
@@ -32,4 +32,8 @@
   display: grid;
   gap: 5px;
   width: 100%;
+}
+
+.action {
+  width: 18px;
 }

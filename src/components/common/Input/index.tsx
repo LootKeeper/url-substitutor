@@ -3,7 +3,8 @@ import React, {
   useCallback,
   useRef,
   SyntheticEvent,
-  KeyboardEvent
+  KeyboardEvent,
+  useEffect
 } from 'react';
 
 import Label from '@root/components/common/Label';

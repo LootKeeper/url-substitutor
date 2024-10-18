@@ -2,16 +2,16 @@ import { ListenerEffectAPI, PayloadAction } from '@reduxjs/toolkit';
 import { init, add, update, remove, set } from '@root/feature/navigation/navigationSlice';
 import { AddActionType, RemoveActionType, UpdateActionType, InitActionType } from '@root/feature/navigation/navigationSlice/actions';
 import listener from './main';
-import { Message, MessageType } from 'background/message';
+import { Message, Type } from 'background/message';
+import { NavMessagePayload, NavType } from 'background/navigation';
 import { AppDispatch, RootState } from '..';
 
 type ListenerApi = ListenerEffectAPI<RootState, AppDispatch>;
 
-const initEffect = async (action: InitActionType, listenerApi: ListenerApi) => {
-  const message: Message = { type: MessageType.GET_ALL };
+const initEffect = async (_: InitActionType, listenerApi: ListenerApi) => {
+  const navMessage: NavMessagePayload = { type: NavType.GET_ALL };
+  const message: Message = { type: Type.NAV, payload: navMessage };
   const { navigation } = await chrome.runtime.sendMessage(message);
-  const lastError = chrome.runtime.lastError
-  console.log({ TEST: true, navigationToSet: navigation, lastError });
   listenerApi.dispatch(set({ navigation }));
 }
 
@@ -20,12 +20,10 @@ listener.startListening({
   effect: initEffect,
 });
 
-const addEffect = async (action: PayloadAction<AddActionType>, listenerApi: ListenerApi) => {
-  const message: Message = { type: MessageType.ADD, payload: { name: '', host: '' } };
-  console.log({ TEST: true, message });
+const addEffect = async (_: PayloadAction<AddActionType>, listenerApi: ListenerApi) => {
+  const navMessage: NavMessagePayload = { type: NavType.ADD, payload: { name: '', host: '' } };
+  const message: Message = { type: Type.NAV, payload: navMessage };
   const { navigation } = await chrome.runtime.sendMessage(message);
-  console.log({ TEST: true, navigation });
-
   listenerApi.dispatch(set({ navigation }));
 }
 
@@ -35,7 +33,8 @@ listener.startListening({
 });
 
 const updateEffect = async (action: PayloadAction<UpdateActionType>, listenerApi: ListenerApi) => {
-  const message: Message = { type: MessageType.UPDATE_BY_ID, payload: action.payload };
+  const navMessage: NavMessagePayload = { type: NavType.UPDATE_BY_ID, payload: action.payload };
+  const message: Message = { type: Type.NAV, payload: navMessage };
   const { navigation } = await chrome.runtime.sendMessage(message);
   listenerApi.dispatch(set({ navigation }));
 }
@@ -43,5 +42,17 @@ const updateEffect = async (action: PayloadAction<UpdateActionType>, listenerApi
 listener.startListening({
   actionCreator: update,
   effect: updateEffect,
+})
+
+const removeEffect = async (action: PayloadAction<RemoveActionType>, listenerApi: ListenerApi) => {
+  const navMessage: NavMessagePayload = { type: NavType.REMOVE_BY_ID, payload: action.payload };
+  const message: Message = { type: Type.NAV, payload: navMessage };
+  const { navigation } = await chrome.runtime.sendMessage(message);
+  listenerApi.dispatch(set({ navigation }));
+}
+
+listener.startListening({
+  actionCreator: remove,
+  effect: removeEffect,
 })
 
