@@ -1,7 +1,7 @@
-import { NavMessagePayload } from "background/navigation";
 import { Message, Type } from ".";
 
-import { defaultHandler as navigationHandler } from '../navigation/handler';
+import { defaultHandler as navigationHandler } from 'background/navigation/handler';
+import { defaultHandler as tabHandler } from "background/tab/handler";
 
 export type ResponseSender = (e: unknown) => void;
 
@@ -10,7 +10,11 @@ export const defaultHandler = async (message: Message, _: never, sendResponse: R
     console.log({ TEST: true, message });
     switch (message.type) {
       case Type.NAV: {
-        navigationHandler(message.payload as NavMessagePayload, _, sendResponse);
+        navigationHandler(message.payload, _, sendResponse);
+        break;
+      }
+      case Type.TAB: {
+        tabHandler(message.payload, _, sendResponse);
         break;
       }
       default: {
