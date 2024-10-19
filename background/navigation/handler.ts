@@ -1,7 +1,7 @@
 import { NavMessagePayload, NavType } from "./index";
 import { Navigation } from "@root/feature/navigation";
 
-export type ResponseSender = (e: any) => void;
+export type ResponseSender = (e: unknown) => void;
 
 export const defaultHandler = async (message: NavMessagePayload, _: never, sendResponse: ResponseSender) => {
   if (message && message.type) {
@@ -14,11 +14,10 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
       }
       case NavType.ADD: {
         const navigationDb = await chrome.storage.local.get('navigation');
-        const navigation = navigationDb.navigation;
+        const navigation = navigationDb.navigation as Navigation[];
         const index = navigation.length;
         const newNav: Navigation = { id: index, name: message.payload.name, host: message.payload.host };
         navigation.push(newNav);
-        console.log({ TEST: true, navigation });
         chrome.storage.local.set({ navigation });
         sendResponse({ navigation });
 
@@ -26,8 +25,10 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
       }
       case NavType.UPDATE_BY_ID: {
         const navigationDb = await chrome.storage.local.get('navigation');
-        const navigation = navigationDb.navigation;
-        const navToUpdate = navigation[message.payload.id];
+        const navigation = navigationDb.navigation as Navigation[];
+        const idToUpdate = message.payload.id;
+        const indexToRemove = navigation.findIndex((nav) => nav.id === idToUpdate);
+        const navToUpdate = navigation[indexToRemove];
         navToUpdate.host = message.payload.host;
         navToUpdate.name = message.payload.name;
 
@@ -40,7 +41,9 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
         const navigationDb = await chrome.storage.local.get('navigation');
         const navigation = navigationDb.navigation as Navigation[];
         const idToRemove = message.payload.id;
-        navigation.splice(idToRemove, 1);
+        const indexToRemove = navigation.findIndex((nav) => nav.id === idToRemove);
+        navigation.splice(indexToRemove, 1);
+
         chrome.storage.local.set({ navigation });
         sendResponse({ navigation });
         break;

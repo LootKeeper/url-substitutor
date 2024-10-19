@@ -1,12 +1,26 @@
 import { TabMessagePayload, TabType } from ".";
+import { changeHost, getCurrentTab } from './helper';
 
 export type ResponseSender = (e: unknown) => void;
 
 export const defaultHandler = async (message: TabMessagePayload, _: never, sendResponse: ResponseSender) => {
   if (message && message.type) {
-    console.log({ TEST: true, message });
     switch (message.type) {
       case TabType.GET_URL: {
+        const tab = await getCurrentTab();
+        if (tab) {
+          sendResponse({ url: tab.url });
+        }
+        sendResponse({});
+        break;
+      }
+      case TabType.SET_URL: {
+        const tab = await getCurrentTab();
+        const nextHost = message.payload.url;
+        if (tab) {
+          const newUrl = changeHost(tab.url, nextHost);
+          chrome.tabs.update(tab.id, { url: newUrl.toString() });
+        }
         break;
       }
       default: {

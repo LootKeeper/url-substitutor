@@ -48,6 +48,9 @@
     "webpack-dev-server": "^5.1.0"
   },
   "dependencies": {
+    "@chakra-ui/react": "^2.10.3",
+    "@emotion/react": "^11.13.3",
+    "@emotion/styled": "^11.13.0",
     "@reduxjs/toolkit": "^2.2.8",
     "@types/chrome": "^0.0.278",
     "@types/react": "^18.3.11",
@@ -64,6 +67,7 @@
     "caniuse-lite": "^1.0.30001668",
     "chalk": "^4.1.2",
     "chrome-trace-event": "^1.0.4",
+    "class-variance-authority": "^0.7.0",
     "classnames": "^2.5.1",
     "color-convert": "^2.0.1",
     "color-name": "^1.1.4",

@@ -1,12 +1,16 @@
+.wrapper {
+  border-radius: 6px;
+  padding: 4px;
+}
+
 .root {
   display: grid;
-  gap: 5px;
+  row-gap: 5px;
+  column-gap: 10px;
   grid-template-areas: "name actions" "host actions";
-  grid-template-columns: 1fr min-content;
+  grid-template-columns: 1fr max-content;
 
   padding: 2px;
-  border-radius: 6px;
-  background: lightgray;
   align-items: center;
 }
 
@@ -18,12 +22,10 @@
 
 .name {
   grid-area: name;
-  height: 20px;
 }
 
 .host {
   grid-area: host;
-  height: 20px;
 }
 
 .actions {
@@ -32,8 +34,4 @@
   display: grid;
   gap: 5px;
   width: 100%;
-}
-
-.action {
-  width: 18px;
 }
