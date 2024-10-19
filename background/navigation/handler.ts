@@ -29,9 +29,13 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
         const idToUpdate = message.payload.id;
         const indexToRemove = navigation.findIndex((nav) => nav.id === idToUpdate);
         const navToUpdate = navigation[indexToRemove];
-        navToUpdate.host = message.payload.host;
-        navToUpdate.name = message.payload.name;
-
+        const { host, name } = message.payload;
+        if (typeof host === 'string') {
+          navToUpdate.host = message.payload.host;
+        }
+        if (typeof name === 'string') {
+          navToUpdate.name = message.payload.name;
+        }
         chrome.storage.local.set({ navigation });
         sendResponse({ navigation });
 

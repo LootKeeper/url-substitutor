@@ -24,25 +24,25 @@ const NavItem = ({ item, current }: Props) => {
 
   const onNameChangeCallback = useCallback(
     (value: string) => {
-      dispatch(update({ id, name: value, host }));
+      dispatch(update({ id, name: value }));
     },
     [id]
   );
 
   const onHostChangeCallback = useCallback(
     (value: string) => {
-      dispatch(update({ id, host: value, name }));
+      dispatch(update({ id, host: value }));
     },
     [id]
   );
 
   const onRemoveBtnClickCallback = useCallback(() => {
     dispatch(remove({ id }));
-  }, []);
+  }, [id]);
 
   const onApplyBtnClickCallback = useCallback(() => {
     dispatch(applyUrl({ url: host }));
-  }, []);
+  }, [host]);
 
   const validHost = isValidHost(host);
   const isEnableToApply = !current && validHost;

@@ -19,10 +19,3 @@ root.render(
     </ChakraProvider>
   </Provider>
 );
-
-if (module.hot) {
-  module.hot.accept('./main', () => {
-    console.log('Reloading.');
-    root.render(<Main />);
-  });
-}

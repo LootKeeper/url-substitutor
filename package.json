@@ -3,9 +3,8 @@
   "version": "1.0.0",
   "main": "background.js",
   "scripts": {
-    "build": " tcm src && webpack --config webpack.config.dev.js && webpack --config webpack.background.config.dev.js",
-    "release": "webpack --config webpack.config.prod.js",
-    "debug": "webpack serve --config webpack.config.watch.js",
+    "build": "tcm src && webpack --config webpack.config.dev.js && webpack --config webpack.background.config.dev.js",
+    "release": "tcm src && webpack --config webpack.config.prod.js && webpack --config webpack.background.config.prod.js",
     "lint": "eslint . --ext .ts",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}"

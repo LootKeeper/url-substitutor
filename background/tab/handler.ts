@@ -19,8 +19,9 @@ export const defaultHandler = async (message: TabMessagePayload, _: never, sendR
         const nextHost = message.payload.url;
         if (tab) {
           const newUrl = changeHost(tab.url, nextHost);
-          chrome.tabs.update(tab.id, { url: newUrl.toString() });
+          await chrome.tabs.update(tab.id, { url: newUrl.toString() });
         }
+        sendResponse({});
         break;
       }
       default: {

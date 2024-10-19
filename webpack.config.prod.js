@@ -1,13 +1,14 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const path = require('path');
 
+const ASSET_PATH = process.env.ASSET_PATH || '/';
+
 module.exports = {
-  entry: { 
-    app: './src/index.html',
-  },
-  devtool: 'inline-source-map',
+  entry: './src/index.tsx',
   module: {
+    strictExportPresence: true,
     rules: [
       {
         test: /\.tsx?$/,
@@ -15,31 +16,54 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-         test: /\.css$/,
-         use: ['style-loader', 'css-loader'],
-       },
-       {
-        test: /\.html$/i,
-        loader: "html-loader",
+        test: /\.css$/,
+        use: [
+          {
+            loader: "style-loader",
+          },
+          {
+            loader: 'css-loader',
+            options: {
+              esModule: true,
+              modules: {
+                namedExport: true,
+                localIdentName: "[name]__[local]___[hash:base64:5]",
+              },
+            }
+          },
+        ]
+      },
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
+        type: "javascript/auto",
+        loader: "file-loader",
+        options: {
+            publicPath: "../",
+            name: "[path][name].[ext]",
+            context: path.resolve(__dirname, "src/assets"),
+            emitFile: false,
+        },
       },
     ],
   },
-  devServer: {
-    static: './dist',
-    hot: false,
-    client: false,
-  },
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    plugins: [new TsconfigPathsPlugin({baseUrl: './'}),]
   },
   output: {
     filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
     clean: true,
+    publicPath: ASSET_PATH,
   },
   plugins: [
     new HtmlWebpackPlugin({
         title: 'URL substitutor',
+        template: "./src/index.html",
+        minify: true
       }),
-  ] 
+  ],
+  optimization: {
+   minimize: true
+  },
 };

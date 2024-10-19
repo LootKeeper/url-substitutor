@@ -25,7 +25,7 @@ export type AddMessage = {
 
 export type UpdateMessage = {
   type: NavType.UPDATE_BY_ID;
-} & BaseNavMessage<Navigation>;
+} & BaseNavMessage<Partial<Navigation>>;
 
 export type RemoveMessage = {
   type: NavType.REMOVE_BY_ID;
