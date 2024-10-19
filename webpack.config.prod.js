@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
@@ -62,6 +63,12 @@ module.exports = {
         template: "./src/index.html",
         minify: true
       }),
+    new CopyPlugin({
+      patterns: [
+        { from: "assets/manifest.json", to: "manifest.json" },
+        { from: "assets/extLogo.png", to: "extLogo.png" },
+      ],
+    }),
   ],
   optimization: {
    minimize: true

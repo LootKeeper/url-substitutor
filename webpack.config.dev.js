@@ -1,6 +1,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 const path = require('path');
 
 const ASSET_PATH = process.env.ASSET_PATH || '/';
@@ -35,14 +36,12 @@ module.exports = {
         ]
       },
       {
-        test: /\.(?:ico|gif|png|jpg|jpeg|svg)$/i,
-        type: "javascript/auto",
+        test: /\.(png|jpg|gif)$/i,
         loader: "file-loader",
         options: {
-            publicPath: "../",
+            publicPath: 'assets',
             name: "[path][name].[ext]",
-            context: path.resolve(__dirname, "src/assets"),
-            emitFile: false,
+            emitFile: true,
         },
       },
     ],
@@ -64,6 +63,12 @@ module.exports = {
         inject: false,
         minify: false
       }),
+    new CopyPlugin({
+      patterns: [
+        { from: "assets/manifest.json", to: "manifest.json" },
+        { from: "assets/extLogo.png", to: "extLogo.png" },
+      ],
+    }),
   ],
   optimization: {
    minimize: false

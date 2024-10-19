@@ -1,0 +1,15 @@
+{
+  "manifest_version": 3,
+  "name": "URL substitutor",
+  "description": "Substitute base url in current tab",
+  "version": "1.0",
+  "permissions": ["activeTab", "scripting", "sidePanel", "storage"],
+  "action": {
+    "default_popup": "./index.html",
+    "default_icon": "./extLogo.png"
+  },
+  "background": {
+    "service_worker": "./service-worker.js",
+    "type": "module"
+  }
+}
