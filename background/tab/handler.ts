@@ -1,9 +1,13 @@
-import { TabMessagePayload, TabType } from ".";
-import { changeHost, getCurrentTab } from './helper';
+import { TabMessagePayload, TabType } from '.';
+import { changeHost, changePath, getCurrentTab } from './helper';
 
 export type ResponseSender = (e: unknown) => void;
 
-export const defaultHandler = async (message: TabMessagePayload, _: never, sendResponse: ResponseSender) => {
+export const defaultHandler = async (
+  message: TabMessagePayload,
+  _: never,
+  sendResponse: ResponseSender
+) => {
   if (message && message.type) {
     switch (message.type) {
       case TabType.GET_URL: {
@@ -24,9 +28,33 @@ export const defaultHandler = async (message: TabMessagePayload, _: never, sendR
         sendResponse({});
         break;
       }
+      case TabType.GET_PATH: {
+        const tab = await getCurrentTab();
+        if (tab) {
+          const url = new URL(tab.url);
+          if (url.pathname) {
+            sendResponse({ success: true, payload: { path: url.pathname } });
+            return;
+          }
+        }
+        sendResponse({ success: false });
+        break;
+      }
+      case TabType.SET_PATH: {
+        const tab = await getCurrentTab();
+        const path = message.payload.path;
+        if (tab) {
+          const newUrl = changePath(tab.url, path);
+          await chrome.tabs.update(tab.id, { url: newUrl });
+          sendResponse({ success: true });
+          return;
+        }
+        sendResponse({ success: false });
+        break;
+      }
       default: {
         sendResponse({});
       }
     }
   }
-}
+};

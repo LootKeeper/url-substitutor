@@ -14,7 +14,7 @@ const NewNavItem = () => {
   }, []);
   return (
     <div className={btnContainer}>
-      <Button label={'Добавить'} onClick={onClickCallback} colorScheme="blue" />
+      <Button label={'Add'} onClick={onClickCallback} colorScheme="blue" />
     </div>
   );
 };

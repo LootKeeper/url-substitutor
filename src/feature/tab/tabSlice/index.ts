@@ -1,6 +1,12 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Tab } from '../index';
-import { InitActionType, SetCurrentUrlActionType, ApplyUrlActionType } from './actions';
+import {
+  ApplyUrlActionType,
+  GetCurrentPathActionType,
+  InitActionType,
+  SetCurrentPathActionType,
+  SetCurrentUrlActionType
+} from './actions';
 
 interface ITabState {
   currentTab: Tab;
@@ -8,7 +14,7 @@ interface ITabState {
 
 const initialState: ITabState = {
   currentTab: { url: '' }
-}
+};
 
 export const tabSlice = createSlice({
   name: 'tab',
@@ -19,10 +25,12 @@ export const tabSlice = createSlice({
       state.currentTab.url = action.payload.url;
     },
     applyUrl: (state, _: PayloadAction<ApplyUrlActionType>) => state,
-  },
+    getPath: (state, _: PayloadAction<GetCurrentPathActionType>) => state,
+    setPath: (state, _: PayloadAction<SetCurrentPathActionType>) => state
+  }
 });
 
+export const { init, setCurrentUrl, applyUrl, getPath, setPath } =
+  tabSlice.actions;
 
-export const { init, setCurrentUrl, applyUrl } = tabSlice.actions
-
-export default tabSlice.reducer
+export default tabSlice.reducer;

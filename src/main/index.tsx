@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Box } from '@chakra-ui/react';
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 
 import { init as navInit } from '@root/feature/navigation/navigationSlice';
 import { init as tabInit } from '@root/feature/tab/tabSlice';
 
-import List from '@root/components/NavList';
-import AddNewItem from '@root/components/AddNewNavItem';
+import HostTab from 'src/components/HostTab';
+import PathTab from 'src/components/PathTab';
 
-import { root, listWrapper } from './styles.module.css';
+import { root } from './styles.module.css';
+import ToastManager from '@root/components/ToastManager';
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -19,12 +20,26 @@ const Main = () => {
   }, []);
 
   return (
-    <Box className={root}>
-      <div className={listWrapper}>
-        <List />
-        <AddNewItem />
-      </div>
-    </Box>
+    <>
+      <Box className={root}>
+        <Tabs size="sm">
+          <TabList>
+            <Tab>Host</Tab>
+            <Tab>Path</Tab>
+          </TabList>
+
+          <TabPanels>
+            <TabPanel>
+              <HostTab />
+            </TabPanel>
+            <TabPanel>
+              <PathTab />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
+      <ToastManager />
+    </>
   );
 };
 

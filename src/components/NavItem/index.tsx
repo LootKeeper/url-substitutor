@@ -59,7 +59,7 @@ const NavItem = ({ item, current }: Props) => {
         <div className={styles.host}>
           <Input
             value={host}
-            placeholder={'Host...'}
+            placeholder={'HostTab...'}
             onChange={onHostChangeCallback}
           />
         </div>
