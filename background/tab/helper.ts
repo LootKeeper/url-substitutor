@@ -21,6 +21,12 @@ export const changeHost = (currentUrl: string, newHost: string): URL => {
 
 export const changePath = (currentUrl: string, newPath: string): string => {
   const url = new URL(currentUrl);
-  const newUrl = new URL(url.origin);
-  return newUrl + newPath;
+  const normalizedPath = newPath.startsWith('/') ? newPath : `/${newPath}`;
+  const newUrl = new URL(normalizedPath, url.origin);
+
+  if (newUrl.origin !== url.origin) {
+    throw new TypeError('Path must not change the current origin');
+  }
+
+  return newUrl.toString();
 };

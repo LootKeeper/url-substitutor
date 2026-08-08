@@ -33,7 +33,8 @@ export const defaultHandler = async (
         if (tab) {
           const url = new URL(tab.url);
           if (url.pathname) {
-            sendResponse({ success: true, payload: { path: url.pathname } });
+            const path = `${url.pathname}${url.search}${url.hash}`;
+            sendResponse({ success: true, payload: { path } });
             return;
           }
         }
