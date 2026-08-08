@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tcm src && webpack --config webpack.config.dev.js && webpack --config webpack.background.config.dev.js",
     "release": "tcm src && webpack --config webpack.config.prod.js && webpack --config webpack.background.config.prod.js",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint src background",
     "prettier-format": "prettier --config .prettierrc 'src/**/*.ts' --write",
     "prettier-watch": "onchange 'src/**/*.ts' -- prettier --write {{changed}}"
   },
