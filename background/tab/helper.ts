@@ -1,4 +1,4 @@
-const currentTabQueryInfo = { active: true };
+const currentTabQueryInfo = { active: true, currentWindow: true };
 
 export const getCurrentTab = async () => {
   const [tab] = await chrome.tabs.query(currentTabQueryInfo);
