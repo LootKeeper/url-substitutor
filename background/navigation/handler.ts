@@ -34,8 +34,13 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
         const navigationDb = await chrome.storage.local.get('navigation');
         const navigation = navigationDb.navigation as Navigation[];
         const idToUpdate = message.payload.id;
-        const indexToRemove = navigation.findIndex((nav) => nav.id === idToUpdate);
-        const navToUpdate = navigation[indexToRemove];
+        const indexToUpdate = navigation.findIndex((nav) => nav.id === idToUpdate);
+        if (indexToUpdate === -1) {
+          sendResponse({ success: false, navigation });
+          return;
+        }
+
+        const navToUpdate = navigation[indexToUpdate];
         const { host, name } = message.payload;
         if (typeof host === 'string') {
           navToUpdate.host = message.payload.host;
@@ -44,7 +49,7 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
           navToUpdate.name = message.payload.name;
         }
         chrome.storage.local.set({ navigation });
-        sendResponse({ navigation });
+        sendResponse({ success: true, navigation });
 
         break;
       }
@@ -53,10 +58,15 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
         const navigation = navigationDb.navigation as Navigation[];
         const idToRemove = message.payload.id;
         const indexToRemove = navigation.findIndex((nav) => nav.id === idToRemove);
+        if (indexToRemove === -1) {
+          sendResponse({ success: false, navigation });
+          return;
+        }
+
         navigation.splice(indexToRemove, 1);
 
         chrome.storage.local.set({ navigation });
-        sendResponse({ navigation });
+        sendResponse({ success: true, navigation });
         break;
       }
       default: {
