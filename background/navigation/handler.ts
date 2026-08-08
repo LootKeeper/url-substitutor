@@ -15,8 +15,15 @@ export const defaultHandler = async (message: NavMessagePayload, _: never, sendR
       case NavType.ADD: {
         const navigationDb = await chrome.storage.local.get('navigation');
         const navigation = navigationDb.navigation as Navigation[];
-        const index = navigation.length;
-        const newNav: Navigation = { id: index, name: message.payload.name, host: message.payload.host };
+        const id = navigation.reduce(
+          (maxId, item) => Math.max(maxId, item.id),
+          -1
+        ) + 1;
+        const newNav: Navigation = {
+          id,
+          name: message.payload.name,
+          host: message.payload.host
+        };
         navigation.push(newNav);
         chrome.storage.local.set({ navigation });
         sendResponse({ navigation });
