@@ -1,17 +1,27 @@
-import { IsHostValidator } from "../CORClasses/isHostValidator";
-import { IsStringValidator } from "../CORClasses/isStringValidator";
+const parseHttpUrl = (value?: string): URL | null => {
+  if (typeof value !== 'string') {
+    return null;
+  }
 
-const CORHost = new IsStringValidator(new IsHostValidator());
+  try {
+    const url = new URL(value);
+    if (['http:', 'https:'].includes(url.protocol) && url.hostname) {
+      return url;
+    }
+  } catch {
+    // Invalid URLs are handled by returning null.
+  }
+
+  return null;
+};
 
 export const isValidHost = (host: unknown): boolean => {
-  return CORHost.isValid(host);
-}
+  return parseHttpUrl(typeof host === 'string' ? host : undefined) !== null;
+};
 
 export const isHostsEqual = (host1?: string, host2?: string): boolean => {
-  if (URL.canParse(host1) && URL.canParse(host2)) {
-    const url1 = new URL(host1);
-    const url2 = new URL(host2);
-    return url1.host === url2.host;
-  }
-  return false;
-}
+  const url1 = parseHttpUrl(host1);
+  const url2 = parseHttpUrl(host2);
+
+  return url1 !== null && url2 !== null && url1.origin === url2.origin;
+};
