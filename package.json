@@ -40,6 +40,7 @@
     "style-loader": "^4.0.0",
     "ts-loader": "^9.5.1",
     "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typed-css-modules": "^0.9.1",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.8.1",
     "typescript-plugin-css-modules": "^5.1.0",
