@@ -14,6 +14,7 @@ export const defaultHandler = async (
         const tab = await getCurrentTab();
         if (tab) {
           sendResponse({ url: tab.url });
+          return;
         }
         sendResponse({});
         break;
