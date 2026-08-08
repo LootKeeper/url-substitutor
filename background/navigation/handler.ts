@@ -1,5 +1,6 @@
 import { NavMessagePayload, NavType } from './index';
 import { Navigation } from '@root/feature/navigation';
+import { loadNavigation } from '@root/feature/navigation/storage';
 
 export type ResponseSender = (e: unknown) => void;
 
@@ -9,11 +10,6 @@ type MutationResult = {
 };
 
 let mutationQueue: Promise<unknown> = Promise.resolve();
-
-const loadNavigation = async (): Promise<Navigation[]> => {
-  const navigationDb = await chrome.storage.local.get('navigation');
-  return Array.isArray(navigationDb.navigation) ? navigationDb.navigation : [];
-};
 
 const mutateNavigation = (
   mutation: (navigation: Navigation[]) => boolean

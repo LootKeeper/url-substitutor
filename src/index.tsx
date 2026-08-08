@@ -9,13 +9,32 @@ import 'normalize.css';
 import './global.css';
 
 import Main from './main';
+import { loadNavigation } from './feature/navigation/storage';
 
-const root = createRoot(document.getElementById('app'));
+const appElement = document.getElementById('app');
 
-root.render(
-  <Provider store={store}>
-    <ChakraProvider>
-      <Main />
-    </ChakraProvider>
-  </Provider>
-);
+if (!appElement) {
+  throw new Error('Application root element is missing');
+}
+
+const startApplication = async () => {
+  try {
+    await loadNavigation();
+
+    const root = createRoot(appElement);
+    root.render(
+      <Provider store={store}>
+        <ChakraProvider>
+          <Main />
+        </ChakraProvider>
+      </Provider>
+    );
+  } catch (error) {
+    console.error('URL Substitutor failed to start', error);
+    appElement.setAttribute('role', 'alert');
+    appElement.textContent =
+      'URL Substitutor failed to start: navigation storage is unavailable or invalid.';
+  }
+};
+
+void startApplication();
